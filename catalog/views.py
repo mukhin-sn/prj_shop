@@ -6,7 +6,7 @@ from catalog.models import Category, Product
 
 
 def index(request):
-    data_list = Category.objects.all()
+    data_list = Product.objects.all()
 
     data = {
         'title': 'Магазин',
@@ -14,3 +14,7 @@ def index(request):
     }
     # return HttpResponse(data_list)
     return render(request, 'catalog/index.html', context=data)
+
+
+def contacts(request):
+    return render(request, 'catalog/cont.html')
