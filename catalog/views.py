@@ -9,12 +9,42 @@ def index(request):
     data_list = Product.objects.all()
 
     data = {
-        'title': 'Магазин',
+        'title': 'Магазин - Барахолка',
         'data_list': data_list
     }
+    for dl in data['data_list']:
+        if len(dl.description) > 100:
+            dl.description = dl.description[:100]
+        # else:
+        #     string_of_spaces = " " * (100 - len(dl.description))
+        #     dl.description = dl.description + string_of_spaces
+        # print(len(dl.description))
+
     # return HttpResponse(data_list)
     return render(request, 'catalog/index.html', context=data)
 
 
 def contacts(request):
-    return render(request, 'catalog/cont.html')
+    data = {
+        'title': 'Контактная информация',
+        'data': False
+    }
+
+    if request.method == 'POST':
+        data['name'] = request.POST.get('name')
+        data['phone'] = request.POST.get('phone')
+        data['message'] = request.POST.get('message')
+        data['data'] = True
+
+        print(f'{data["name"]}, {data["phone"]}\n{data["message"]}')
+    return render(request, 'catalog/contacts.html', context=data)
+
+
+def product_page(request, pk):
+
+    data_list = Product.objects.filter(product_id=pk)
+    data = {
+        'title': 'Продукт',
+        'data_list': data_list,
+    }
+    return render(request, 'catalog/product_page.html', context=data)
