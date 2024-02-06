@@ -6,10 +6,10 @@ from catalog.models import Category, Product
 
 
 def index(request):
-    data_list = Product.objects.all()
+    data_list = Category.objects.all()
 
     data = {
-        'title': 'Магазин - Барахолка',
+        'title': 'Магазин',
         'data_list': data_list
     }
     for dl in data['data_list']:
@@ -40,11 +40,21 @@ def contacts(request):
     return render(request, 'catalog/contacts.html', context=data)
 
 
-def product_page(request, pk):
+def product(request, pk):
 
-    data_list = Product.objects.filter(product_id=pk)
+    data_list = Product.objects.filter(pk=pk)
     data = {
         'title': 'Продукт',
         'data_list': data_list,
     }
     return render(request, 'catalog/product_page.html', context=data)
+
+
+def category(request, pk):
+
+    data_list = Product.objects.filter(category_id=pk)
+    data = {
+        'title': 'Категории товаров',
+        'data_list': data_list,
+    }
+    return render(request, 'catalog/category_page.html', context=data)
