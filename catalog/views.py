@@ -56,5 +56,8 @@ def category(request, pk):
     data = {
         'title': 'Категории товаров',
         'data_list': data_list,
+        'category_id': pk,
     }
+    print(pk)
+
     return render(request, 'catalog/category_page.html', context=data)

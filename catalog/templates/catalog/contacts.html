@@ -158,7 +158,7 @@
           <p class="text-body-secondary">Какой-то текст.</p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
-          <h4>Контакты</h4>
+          <h4>Меню</h4>
           <ul class="list-unstyled">
             <li><a href="{% url 'catalog:contacts' %}" class="text-blue">Информация для связи</a></li>
             <li><a href="#" class="text-blue">Like on Facebook</a></li>
@@ -186,22 +186,31 @@
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-8 col-md-8 mx-auto">
-        <h1 class="fw-light">Категории товаров нашего магазина</h1>
 
         {% if title == 'Контактная информация' %}
           <h1 class="fw-light">{{ title }}</h1>
           {% include 'catalog/cont_list.html' %}
-        {% endif %}
-        {% if title == 'Магазин' %}
+
+        {% elif title == 'Магазин' %}
             <h1 class="fw-light">Категории товаров нашего магазина</h1>
-            <p class="lead text-body-secondary">Что-то мы тут продаем.</p>
+            <p class="lead text-body-secondary">Мы продаем - Вы покупаете</p>
             <p>
             <a href="#" class="btn btn-primary my-2">Кнопка 1</a>
             <a href="#" class="btn btn-secondary my-2">Кнопка 2</a>
             </p>
-        {% endif %}
-        {% if title == 'Продукт' %}
+
+        {% elif title == 'Продукт' %}
           <h1 class="fw-light">Просмотр продукта</h1>
+
+        {% elif title == 'Категории товаров' and category_id == 1 %}
+          <h1 class="fw-light">Автомобили</h1>
+
+        {% elif title == 'Категории товаров' and category_id == 2 %}
+          <h1 class="fw-light">Мототехника</h1>
+
+        {% elif title == 'Категории товаров' and category_id == 3 %}
+          <h1 class="fw-light">Велосипеды</h1>
+
         {% endif %}
 
       </div>
