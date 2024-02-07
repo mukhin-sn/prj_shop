@@ -18,7 +18,7 @@ def index(request):
         # else:
         #     string_of_spaces = " " * (100 - len(dl.description))
         #     dl.description = dl.description + string_of_spaces
-        # print(len(dl.description))
+        # print(len(dl.description), dl.description)
 
     # return HttpResponse(data_list)
     return render(request, 'catalog/index.html', context=data)
@@ -47,6 +47,12 @@ def product(request, pk):
         'title': 'Продукт',
         'data_list': data_list,
     }
+
+    for dl in data['data_list']:
+        if len(dl.description) > 100:
+            dl.description = dl.description[:100]
+        # print(len(dl.description), dl.description)
+
     return render(request, 'catalog/product_page.html', context=data)
 
 
@@ -58,6 +64,7 @@ def category(request, pk):
         'data_list': data_list,
         'category_id': pk,
     }
-    print(pk)
+    # for i in data['data_list']:
+    #     print(i.image)
 
     return render(request, 'catalog/category_page.html', context=data)
