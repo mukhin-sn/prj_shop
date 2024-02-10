@@ -1,0 +1,36 @@
+{% extends 'catalog/contacts.html' %}
+{% block content %}
+{% load media_path %}
+
+<div class="album py-5 bg-body-tertiary">
+  <div class="container">
+    <section class="py-5 text-center container">
+      <div class="col-lg-8 col-md-8 mx-auto">
+        {% for data in data_list %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{ data.image|media_path }}"/>
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{% path_media data.image %}"/>
+              <div class="card-body">
+                <h4 class="card-text">{{ data.name }}</h4>
+                <p class="card-text">{{ data.description }}</p>
+                <p class="card-text">Категория товара: {{ data.category }}</p>
+                <p class="card-text">Цена за шт.: {{ data.price_for_one }}</p>
+                <p class="card-text">Дата публикации: {{ data.date_of_creation }}</p>
+                <p class="card-text">Дата изменения: {{ data.last_modified_date }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="{% url 'catalog:product' data.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Редактирование</button>
+                  </div>
+                  <small class="text-body-secondary">9 mins</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
