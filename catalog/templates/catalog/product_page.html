@@ -1,6 +1,6 @@
 {% extends 'catalog/contacts.html' %}
 {% block content %}
-{% load mediapath %}
+{% load media_path %}
 
 <div class="album py-5 bg-body-tertiary">
   <div class="container">
@@ -9,8 +9,8 @@
         {% for data in data_list %}
           <div class="col">
             <div class="card shadow-sm">
-              <img src="{% media_path data.image %}"/>
-              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="/"/>
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{% media_path data.image %}"/>
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{ data.image|path_media }}"/>
               <div class="card-body">
                 <h4 class="card-text">{{ data.name }}</h4>
                 <p class="card-text">{{ data.description }}</p>
@@ -18,7 +18,6 @@
                 <p class="card-text">Цена за шт.: {{ data.price_for_one }}</p>
                 <p class="card-text">Дата публикации: {{ data.date_of_creation }}</p>
                 <p class="card-text">Дата изменения: {{ data.last_modified_date }}</p>
-                <h2 class="card-text">{{ data.image }}</h2>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                     <a href="{% url 'catalog:product' data.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>
