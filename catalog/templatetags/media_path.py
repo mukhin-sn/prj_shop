@@ -1,15 +1,13 @@
 from django import template
 
-from config.settings import MEDIA_ROOT, MEDIA_URL
-
 register = template.Library()
 
 
 @register.simple_tag()
-def media_path(var):
-    return f"/media/{var}"
+def media_path(path_data):
+    return f"/media/{path_data}"
 
 
 @register.filter()
-def path_media(var):
-    return f"/media/{var}"
+def path_media(path_data):
+    return f"/media/{path_data}"

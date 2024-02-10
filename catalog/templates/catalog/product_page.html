@@ -9,8 +9,8 @@
         {% for data in data_list %}
           <div class="col">
             <div class="card shadow-sm">
-              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{ data.image|media_path }}"/>
-              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{% path_media data.image %}"/>
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{% media_path data.image %}"/>
+              <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{ data.image|path_media }}"/>
               <div class="card-body">
                 <h4 class="card-text">{{ data.name }}</h4>
                 <p class="card-text">{{ data.description }}</p>
