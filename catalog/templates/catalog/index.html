@@ -1,4 +1,4 @@
-{% extends 'catalog/contacts.html' %}
+{% extends 'catalog/base.html' %}
 {% block content %}
 
   <div class="album py-5 bg-body-tertiary">
@@ -11,7 +11,7 @@
               <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
               <div class="card-body">
                 <h4 class="card-text">{{ data.name }}</h4>
-                <p class="card-text">{{ data.description }}</p>
+                <p class="card-text">{{ data.description|truncatechars:100 }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                     <a href="{% url 'catalog:category' data.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>
