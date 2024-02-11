@@ -5,11 +5,10 @@ from django.views.generic import ListView, DetailView
 
 class CategoryListView(ListView):
     model = Category
+    template_name = 'catalog/index.html'
     extra_context = {
         'title': 'Магазин'
     }
-    template_name = 'catalog/index.html'
-
 
 # def index(request):
 #     object_list = Category.objects.all()
@@ -48,10 +47,10 @@ def contacts(request):
 
 class ProductDetailView(DetailView):
     model = Product
+    template_name = 'catalog/product_page.html'
     extra_context = {
         'title': 'Продукт'
     }
-    template_name = 'catalog/product_page.html'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -80,7 +79,6 @@ class ProductCategoryListView(ListView):
     template_name = 'catalog/category_page.html'
     extra_context = {
         'title': 'Категории товаров',
-        # 'category_id': model.category,
     }
 
     def get_queryset(self):
