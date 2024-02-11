@@ -1,19 +1,33 @@
 from django.shortcuts import render
-from catalog.models import Category, Product
+from catalog.models import Product, Category
+from django.views.generic import ListView, DetailView
 
 
-def index(request):
-    data_list = Category.objects.all()
-
-    data = {
-        'title': 'Магазин',
-        'data_list': data_list
+class CategoryListView(ListView):
+    model = Category
+    extra_context = {
+        'title': 'Магазин'
     }
-    # for dl in data['data_list']:
-    #     if len(dl.description) > 100:
-    #         dl.description = dl.description[:100]
+    template_name = 'catalog/index.html'
 
-    return render(request, 'catalog/index.html', context=data)
+
+# def index(request):
+#     object_list = Category.objects.all()
+#
+#     data = {
+#         'title': 'Магазин',
+#         'object_list': object_list
+#     }
+#     for dl in data['object_list']:
+#         if len(dl.description) > 100:
+#             dl.description = dl.description[:100]
+#         # else:
+#         #     string_of_spaces = " " * (100 - len(dl.description))
+#         #     dl.description = dl.description + string_of_spaces
+#         # print(len(dl.description), dl.description)
+#
+#     # return HttpResponse(data_list)
+#     return render(request, 'catalog/index.html', context=data)
 
 
 def contacts(request):
@@ -32,28 +46,66 @@ def contacts(request):
     return render(request, 'catalog/base.html', context=data)
 
 
-def product(request, pk):
-
-    data_list = Product.objects.filter(pk=pk)
-    data = {
-        'title': 'Продукт',
-        'data_list': data_list,
+class ProductDetailView(DetailView):
+    model = Product
+    extra_context = {
+        'title': 'Продукт'
     }
+    template_name = 'catalog/product_page.html'
 
-    # for dl in data['data_list']:
-    #     if len(dl.description) > 100:
-    #         dl.description = dl.description[:100]
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs.get('pk'))
+        return queryset
 
-    return render(request, 'catalog/product_page.html', context=data)
+
+# def product(request, pk):
+#
+#     object_list = Product.objects.filter(pk=pk)
+#     data = {
+#         'title': 'Продукт',
+#         'object_list': object_list,
+#     }
+#
+#     for dl in data['object_list']:
+#         if len(dl.description) > 100:
+#             dl.description = dl.description[:100]
+#         # print(len(dl.description), dl.description)
+#
+#     return render(request, 'catalog/product_page.html', context=data)
 
 
-def category(request, pk):
-
-    data_list = Product.objects.filter(category_id=pk)
-    data = {
+class ProductCategoryListView(ListView):
+    model = Product
+    template_name = 'catalog/category_page.html'
+    extra_context = {
         'title': 'Категории товаров',
-        'data_list': data_list,
-        'category_id': pk,
+        # 'category_id': model.category,
     }
 
-    return render(request, 'catalog/category_page.html', context=data)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(category_id=self.kwargs.get('pk'))
+        # self.extra_context['category_id'] = queryset[0].category_id
+        # print(self.extra_context['category_id'])
+        return queryset
+
+    # var = get_queryset()
+    # pk = get_queryset().filter(category_id=)
+    # for i in get_queryset():
+    # print(model.pk)
+    # print(model.category)
+
+
+# def category(request, pk):
+#
+#     object_list = Product.objects.filter(category_id=pk)
+#     data = {
+#         'title': 'Категории товаров',
+#         'object_list': object_list,
+#         'category_id': pk,
+#     }
+#     # for i in data['object_list']:
+#     #     print(i.image)
+#
+#     return render(request, 'catalog/category_page.html', context=data)
