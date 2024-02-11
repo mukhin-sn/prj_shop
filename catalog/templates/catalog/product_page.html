@@ -6,21 +6,21 @@
   <div class="container">
     <section class="py-5 text-center container">
       <div class="col-lg-8 col-md-8 mx-auto">
-        {% for object in object_list %}
+        {% for obj in object_list %}
           <div class="col">
             <div class="card shadow-sm">
               <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{ object.image|path_media }}"/>
               <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{% media_path object.image %}"/>
               <div class="card-body">
-                <h4 class="card-text">{{ object.name }}</h4>
-                <p class="card-text">{{ object.description }}</p>
-                <p class="card-text">Категория товара: {{ object.category }}</p>
-                <p class="card-text">Цена за шт.: {{ object.price_for_one }}</p>
-                <p class="card-text">Дата публикации: {{ object.date_of_creation }}</p>
-                <p class="card-text">Дата изменения: {{ object.last_modified_date }}</p>
+                <h4 class="card-text">{{ obj.name }}</h4>
+                <p class="card-text">{{ obj.description }}</p>
+                <p class="card-text">Категория товара: {{ obj.category }}</p>
+                <p class="card-text">Цена за шт.: {{ obj.price_for_one }}</p>
+                <p class="card-text">Дата публикации: {{ obj.date_of_creation }}</p>
+                <p class="card-text">Дата изменения: {{ obj.last_modified_date }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a href="{% url 'catalog:product' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>
+                    <a href="{% url 'catalog:product' obj.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>
                     <button type="button" class="btn btn-sm btn-outline-secondary">Редактирование</button>
                   </div>
                   <small class="text-body-secondary">9 mins</small>

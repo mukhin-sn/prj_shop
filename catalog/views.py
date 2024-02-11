@@ -78,7 +78,7 @@ class ProductDetailView(ListView):
 #     return render(request, 'catalog/product_page.html', context=data)
 
 
-class CategoryDetailView(DetailView):
+class ProductCategoryListView(ListView):
     model = Product
     template_name = 'catalog/category_page.html'
     extra_context = {
@@ -89,8 +89,8 @@ class CategoryDetailView(DetailView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(category_id=self.kwargs.get('pk'))
-        self.extra_context['category_id'] = queryset[0].category_id
-        print(self.extra_context['category_id'])
+        # self.extra_context['category_id'] = queryset[0].category_id
+        # print(self.extra_context['category_id'])
         return queryset
 
     # var = get_queryset()
