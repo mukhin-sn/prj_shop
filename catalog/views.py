@@ -9,9 +9,9 @@ def index(request):
         'title': 'Магазин',
         'data_list': data_list
     }
-    for dl in data['data_list']:
-        if len(dl.description) > 100:
-            dl.description = dl.description[:100]
+    # for dl in data['data_list']:
+    #     if len(dl.description) > 100:
+    #         dl.description = dl.description[:100]
 
     return render(request, 'catalog/index.html', context=data)
 
@@ -29,7 +29,7 @@ def contacts(request):
         data['data'] = True
 
         print(f'{data["name"]}, {data["phone"]}\n{data["message"]}')
-    return render(request, 'catalog/contacts.html', context=data)
+    return render(request, 'catalog/base.html', context=data)
 
 
 def product(request, pk):
@@ -40,9 +40,9 @@ def product(request, pk):
         'data_list': data_list,
     }
 
-    for dl in data['data_list']:
-        if len(dl.description) > 100:
-            dl.description = dl.description[:100]
+    # for dl in data['data_list']:
+    #     if len(dl.description) > 100:
+    #         dl.description = dl.description[:100]
 
     return render(request, 'catalog/product_page.html', context=data)
 
