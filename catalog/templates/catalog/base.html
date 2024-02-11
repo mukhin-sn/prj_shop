@@ -202,12 +202,15 @@
 
         {% elif title == 'Категории товаров' and category_id == 1 %}
           <h1 class="fw-light">Автомобили</h1>
+        {% include 'catalog/add_product.html' %}
 
         {% elif title == 'Категории товаров' and category_id == 2 %}
           <h1 class="fw-light">Мототехника</h1>
+        {% include 'catalog/add_product.html' %}
 
         {% elif title == 'Категории товаров' and category_id == 3 %}
           <h1 class="fw-light">Велосипеды</h1>
+        {% include 'catalog/add_product.html' %}
 
         {% endif %}
 
