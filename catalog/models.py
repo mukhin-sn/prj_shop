@@ -33,3 +33,21 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
+
+class Blog(models.Model):
+    title = models.CharField(max_length=100, verbose_name='заголовок')
+    slug = models.CharField(max_length=100, verbose_name='slug')
+    content = models.TextField(verbose_name='содержимое')
+    image = models.ImageField(upload_to='preview/', verbose_name='превью', **NULLABLE)
+    creation_date = models.DateField(verbose_name='дата создания', **NULLABLE)
+    publication_sign = models.BooleanField(verbose_name='признак публикации', default=True)
+    number_of_views = models.IntegerField(verbose_name='количество просмотров')
+
+    class Meta:
+        verbose_name = 'блог'
+        verbose_name_plural = 'блоги'
+
+    def __str__(self):
+        return f'{self.title}'
+
