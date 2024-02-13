@@ -45,17 +45,16 @@ def contacts(request):
     return render(request, 'catalog/base.html', context=data)
 
 
-class ProductListView(ListView):
+class ProductDetailView(DetailView):
     model = Product
-    # template_name = 'catalog/product_page.html'
     extra_context = {
         'title': 'Продукт'
     }
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(pk=self.kwargs.get('pk'))
-        return queryset
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(pk=self.kwargs.get('pk'))
+    #     return queryset
 
 
 # def product(request, pk):
@@ -71,7 +70,7 @@ class ProductListView(ListView):
 #             dl.description = dl.description[:100]
 #         # print(len(dl.description), dl.description)
 #
-#     return render(request, 'catalog/product_page.html', context=data)
+#     return render(request, 'catalog/product_details.html', context=data)
 
 
 class ProductCategoryListView(ListView):
