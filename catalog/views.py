@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from catalog.models import Product, Category
-from django.views.generic import ListView, DetailView
+from catalog.models import Product, Category, Blog
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 class CategoryListView(ListView):
@@ -88,12 +88,6 @@ class ProductCategoryListView(ListView):
         # print(self.extra_context['category_id'])
         return queryset
 
-    # var = get_queryset()
-    # pk = get_queryset().filter(category_id=)
-    # for i in get_queryset():
-    # print(model.pk)
-    # print(model.category)
-
 
 # def category(request, pk):
 #
@@ -107,3 +101,23 @@ class ProductCategoryListView(ListView):
 #     #     print(i.image)
 #
 #     return render(request, 'catalog/category_page.html', context=data)
+
+
+# class BlogCreateView(CreateView):
+#     model = Blog
+
+
+class BlogListView(ListView):
+    model = Blog
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+
+
+# class BlogUpdateView(UpdateView):
+#     model = Blog
+
+
+# class BlogDeleteView(DeleteView):
+#     model = Blog
