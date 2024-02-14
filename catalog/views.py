@@ -106,7 +106,7 @@ class ProductCategoryListView(ListView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('name', 'content', 'image')
+    fields = ('name', 'content', 'image', 'creation_date', 'is_published')
     success_url = reverse_lazy('catalog:list_blog')
 
 
@@ -120,10 +120,16 @@ class BlogListView(ListView):
 class BlogDetailView(DetailView):
     model = Blog
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
+
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = ('name', 'content', 'image')
+    fields = ('name', 'content', 'image', 'creation_date', 'is_published')
     success_url = reverse_lazy('catalog:list_blog')
 
 

@@ -22,6 +22,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'slug',)
-    list_filter = ('publication_sign',)
+    list_display = ('id', 'name', 'slug', 'views_count',)
+    list_filter = ('is_published', 'views_count',)
     search_fields = ('name', 'content', 'creation_date',)
