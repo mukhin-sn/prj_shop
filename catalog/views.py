@@ -106,7 +106,7 @@ class ProductCategoryListView(ListView):
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('name', 'content', 'image', 'creation_date', 'is_published')
+    fields = '__all__'
     success_url = reverse_lazy('catalog:list_blog')
 
 
