@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse, __all__
+from pytils.translit import slugify
 
 from catalog.models import Product, Category, Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -90,6 +91,12 @@ class ProductCategoryListView(ListView):
         return queryset
 
 
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ('name', 'description', 'image', 'category', 'price_for_one', 'date_of_creation', 'last_modified_date',)
+    success_url = reverse_lazy('catalog:index')
+
+
 # def category(request, pk):
 #
 #     object_list = Product.objects.filter(category_id=pk)
@@ -108,6 +115,13 @@ class BlogCreateView(CreateView):
     model = Blog
     fields = '__all__'
     success_url = reverse_lazy('catalog:list_blog')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_blog = form.save()
+            new_blog.slug = slugify(new_blog.name)
+            new_blog.save()
+        return super().form_valid(form)
 
 
 class BlogListView(ListView):
@@ -135,7 +149,16 @@ class BlogDetailView(DetailView):
 class BlogUpdateView(UpdateView):
     model = Blog
     fields = ('name', 'content', 'image', 'creation_date', 'is_published')
-    success_url = reverse_lazy('catalog:list_blog')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_blog = form.save()
+            new_blog.slug = slugify(new_blog.name)
+            new_blog.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('catalog:detail_blog', args=[self.kwargs.get('pk')])
 
 
 class BlogDeleteView(DeleteView):
