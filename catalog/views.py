@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse, __all__
+from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
-
+from catalog.forms import ProductForm
 from catalog.models import Product, Category, Blog
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -12,6 +12,7 @@ class CategoryListView(ListView):
     extra_context = {
         'title': 'Магазин'
     }
+
 
 # def index(request):
 #     object_list = Category.objects.all()
@@ -93,7 +94,8 @@ class ProductCategoryListView(ListView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('name', 'description', 'image', 'category', 'price_for_one', 'date_of_creation', 'last_modified_date',)
+    form_class = ProductForm
+    # fields = '__all__'  # ('name', 'description', 'image', 'category', 'price_for_one', 'date_of_creation', 'last_modified_date',)
     success_url = reverse_lazy('catalog:index')
 
 
@@ -109,6 +111,24 @@ class ProductCreateView(CreateView):
 #     #     print(i.image)
 #
 #     return render(request, 'catalog/category_page.html', context=data)
+
+class ProductListView(ListView):
+    model = Product
+    extra_context = {
+        'title': 'Продукты'
+    }
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('catalog:product', args=[self.kwargs.get('pk')])
+
+
+class ProductDeleteView(DetailView):
+    pass
 
 
 class BlogCreateView(CreateView):
