@@ -128,7 +128,8 @@ class ProductUpdateView(UpdateView):
 
 
 class ProductDeleteView(DetailView):
-    pass
+    model = Product
+    success_url = reverse_lazy('catalog:category')
 
 
 class BlogCreateView(CreateView):
