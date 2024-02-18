@@ -152,8 +152,8 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
-          <h4>Привет</h4>
-          <p class="text-body-secondary">Какой-то текст.</p>
+          <h4>Реклама</h4>
+          <p class="text-body-secondary">Здесь могла быть Ваша реклама</p>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4>Меню</h4>
@@ -192,7 +192,7 @@
             <h1 class="fw-light">Категории товаров нашего магазина</h1>
             <p class="lead text-body-secondary">Мы продаем - Вы покупаете</p>
             <p>
-            <a href="#" class="btn btn-primary my-2">Кнопка 1</a>
+            <a href="{% url 'catalog:product_list' %}" class="btn btn-primary my-2">Все продукты</a>
             <a href="#" class="btn btn-secondary my-2">Кнопка 2</a>
             </p>
         {% elif title == 'Продукт' %}

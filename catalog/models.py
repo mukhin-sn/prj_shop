@@ -59,8 +59,8 @@ class Version(models.Model):
     current_version_indicator = models.BooleanField(verbose_name='активная', default=True)
 
     class Meta:
-        verbose_name = 'продукт'
-        verbose_name_plural = 'продукты'
+        verbose_name = 'версия продукта'
+        verbose_name_plural = 'версии продукта'
 
     def __str__(self):
         return f'{self.product}'

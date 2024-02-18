@@ -95,8 +95,9 @@ class ProductCategoryListView(ListView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    # fields = '__all__'  # ('name', 'description', 'image', 'category', 'price_for_one', 'date_of_creation', 'last_modified_date',)
-    success_url = reverse_lazy('catalog:index')
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('catalog:category', args=[self.object.category_id])
 
 
 # def category(request, pk):
@@ -124,12 +125,14 @@ class ProductUpdateView(UpdateView):
     form_class = ProductForm
 
     def get_success_url(self, *args, **kwargs):
-        return reverse('catalog:product', args=[self.kwargs.get('pk')])
+        return reverse('catalog:category', args=[self.object.category_id])
 
 
-class ProductDeleteView(DetailView):
+class ProductDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy('catalog:category')
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('catalog:category', args=[self.object.category_id])
 
 
 class BlogCreateView(CreateView):
