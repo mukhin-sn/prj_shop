@@ -1,0 +1,38 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container overflow-hidden text-center">
+  <div class="row gy-5">
+    <div class="col-12">
+      <div class="card">
+        <h3 class="card-header">
+          Версии
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+<p></p>
+<div class="card-body">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+  {% for data in object_list %}
+    <div class="col">
+      <div class="card shadow-sm">
+
+        <div class="card-body">
+          <h4 class="card-text">{{ data.version_name }}</h4>
+          <p class="card-text">{{ data.version_number }}</p>
+          <p class="card-text">{{ data.product }}</p>
+          <p class="card-text">{{ data.current_version_indicator }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <a href="{% url 'catalog:product_detail' data.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>
+            </div>
+            <small class="text-body-secondary">9 mins</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+</div>
+{% endblock %}

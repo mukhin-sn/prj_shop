@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
-from catalog.forms import ProductForm
-from catalog.models import Product, Category, Blog
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Product, Category, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
@@ -188,3 +188,26 @@ class BlogUpdateView(UpdateView):
 class BlogDeleteView(DeleteView):
     model = Blog
     success_url = reverse_lazy('catalog:list_blog')
+
+
+class VersionCreateView(CreateView):
+    model = Version
+    form_class = VersionForm
+    template_name = 'catalog/product_form.html'
+
+
+class VersionUpdateView(UpdateView):
+    model = Version
+    form_class = VersionForm
+
+
+class VersionListView(ListView):
+    model = Version
+
+
+class VersionDetailView(DetailView):
+    model = Version
+
+
+class VersionDeleteView(DeleteView):
+    model = Version

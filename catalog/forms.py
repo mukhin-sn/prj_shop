@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product
+from catalog.models import Product, Version
 from config.settings import PROHIBITED_COMBINATIONS
 
 
@@ -55,3 +55,9 @@ class ProductForm(forms.ModelForm):
         """
         if self.word_check('description', *PROHIBITED_COMBINATIONS):
             return self.cleaned_data.get('description')
+
+
+class VersionForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = '__all__'
