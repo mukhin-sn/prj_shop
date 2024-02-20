@@ -21,6 +21,7 @@
           <h4 class="card-text">{{ data.name }}</h4>
           <p class="card-text">{{ data.description|truncatechars:100 }}</p>
           <p class="card-text">{{ data.category }}</p>
+          <p class="card-text">Версия: {{ data.active_ver_num }}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
               <a href="{% url 'catalog:product_detail' data.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>

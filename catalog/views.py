@@ -142,6 +142,24 @@ class ProductListView(ListView):
         'title': 'Продукты'
     }
 
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        for product in context['object_list']:
+            print(product)
+        #     active_ver = product.version_name.filter(current_version_indicator=True).first()
+        #     if active_ver:
+        #         product.active_ver_num = active_ver.version_number
+        #         product.active_ver_name = active_ver.version_name
+        #     else:
+        #         product.active_ver_num = None
+        #         product.active_ver_name = None
+        return context
+
 
 class ProductUpdateView(UpdateView):
     model = Product
@@ -260,10 +278,21 @@ class VersionDeleteView(DeleteView):
     success_url = reverse_lazy('catalog:index')
 
 
-def version_activ(request, pk):
+def version_activ(pk):
     object_list = Version.objects.filter(product_id=pk)
     data = {
         'object_list': object_list,
         'product_id': pk,
     }
-    return None
+    return data
+
+
+data_list = version_activ(5)
+some_version = Version.objects.first()
+print(some_version.current_version_indicator)
+
+print(Version.objects)
+
+print(data_list['object_list'])
+for dt in data_list['object_list']:
+    print(dt.current_version_indicator)
