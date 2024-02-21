@@ -61,3 +61,12 @@ class VersionForm(forms.ModelForm):
     class Meta:
         model = Version
         fields = '__all__'
+
+    # def clean_current_version_indicator(self, product_id):
+    #     count_c_v_i = 0
+    #     for version in Version.objects.filter(product_id=product_id):
+    #         if version.current_version_indicator:
+    #             count_c_v_i += 1
+    #
+    #     if count_c_v_i > 1:
+    #         return None
