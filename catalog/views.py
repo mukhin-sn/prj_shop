@@ -80,14 +80,13 @@ class ProductDetailView(DetailView):
         """
         context = super().get_context_data(**kwargs)
         product = context['object']
-        print(product.pk)
         version_list = Version.objects.filter(product_id=product.pk)
 
         product.active_ver_num = '-'
         product.active_ver_name = 'нет'
+
         if version_list:
             for ver in version_list:
-                print(ver.current_version_indicator)
                 if ver.current_version_indicator:
                     product.active_ver_num = ver.version_number
                     product.active_ver_name = ver.version_name
