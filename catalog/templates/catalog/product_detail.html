@@ -8,12 +8,13 @@
             <div class="card shadow-sm">
                 <img class="bd-placeholder-img card-img-top" width="100%" height="100%" src="{{ object.image|path_media }}"/>
                 <div class="card-body">
-                <h4 class="card-text">{{ object.name }}</h4>
-                <p class="card-text">{{ object.description }}</p>
-                <p class="card-text">{{ object.category }}</p>
-                <p class="card-text">{{ object.price_for_one }}</p>
-                <p class="card-text">{{ object.date_of_creation }}</p>
-                <p class="card-text">{{ object.last_modified_date }}</p>
+                <h4 class="card-text">Название: {{ object.name }}</h4>
+                <p class="card-text">Описание: {{ object.description }}</p>
+                <p class="card-text">Категория: {{ object.category }}</p>
+                <p class="card-text">Цена: {{ object.price_for_one }}</p>
+                <p class="card-text">Дата создания: {{ object.date_of_creation }}</p>
+                <p class="card-text">Дата изменения: {{ object.last_modified_date }}</p>
+                <p class="card-text">Активная версия: {{ object.active_ver_num }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                         <a href="{% url 'catalog:product_detail' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Просмотр</a>

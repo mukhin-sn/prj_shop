@@ -7,6 +7,24 @@ from catalog.models import Product, Category, Blog, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
+class VersionMixin(ListView):
+    def get_context_data(self, **kwargs):
+        """
+        Переопределяем метод для определения номера активной версии продукта
+        """
+        context = super().get_context_data(**kwargs)
+        for product in context['object_list']:
+            version_list = Version.objects.filter(product_id=product.pk)
+            product.active_ver_num = '-'
+            product.active_ver_name = 'нет'
+            if version_list:
+                for ver in version_list:
+                    if ver.current_version_indicator:
+                        product.active_ver_num = ver.version_number
+                        product.active_ver_name = ver.version_name
+        return context
+
+
 class CategoryListView(ListView):
     model = Category
     template_name = 'catalog/index.html'
@@ -56,6 +74,25 @@ class ProductDetailView(DetailView):
         'title': 'Продукт'
     }
 
+    def get_context_data(self, **kwargs):
+        """
+        Переопределяем метод для определения номера активной версии продукта
+        """
+        context = super().get_context_data(**kwargs)
+        product = context['object']
+        print(product.pk)
+        version_list = Version.objects.filter(product_id=product.pk)
+
+        product.active_ver_num = '-'
+        product.active_ver_name = 'нет'
+        if version_list:
+            for ver in version_list:
+                print(ver.current_version_indicator)
+                if ver.current_version_indicator:
+                    product.active_ver_num = ver.version_number
+                    product.active_ver_name = ver.version_name
+        return context
+
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     queryset = queryset.filter(pk=self.kwargs.get('pk'))
@@ -78,7 +115,7 @@ class ProductDetailView(DetailView):
 #     return render(request, 'catalog/product_details.html', context=data)
 
 
-class ProductCategoryListView(ListView):
+class ProductCategoryListView(VersionMixin, ListView):
     model = Product
     template_name = 'catalog/category_list.html'
     extra_context = {
@@ -136,7 +173,7 @@ class ProductCreateView(CreateView):
 #
 #     return render(request, 'catalog/category_page.html', context=data)
 
-class ProductListView(ListView):
+class ProductListView(VersionMixin, ListView):
     model = Product
     extra_context = {
         'title': 'Продукты'
@@ -145,20 +182,6 @@ class ProductListView(ListView):
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        for product in context['object_list']:
-            print(product)
-        #     active_ver = product.version_name.filter(current_version_indicator=True).first()
-        #     if active_ver:
-        #         product.active_ver_num = active_ver.version_number
-        #         product.active_ver_name = active_ver.version_name
-        #     else:
-        #         product.active_ver_num = None
-        #         product.active_ver_name = None
-        return context
 
 
 class ProductUpdateView(UpdateView):
@@ -263,6 +286,7 @@ class VersionUpdateView(UpdateView):
     model = Version
     form_class = VersionForm
     template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:list_version')
 
 
 class VersionListView(ListView):
@@ -275,24 +299,4 @@ class VersionDetailView(DetailView):
 
 class VersionDeleteView(DeleteView):
     model = Version
-    success_url = reverse_lazy('catalog:index')
-
-
-def version_activ(pk):
-    object_list = Version.objects.filter(product_id=pk)
-    data = {
-        'object_list': object_list,
-        'product_id': pk,
-    }
-    return data
-
-
-data_list = version_activ(5)
-some_version = Version.objects.first()
-print(some_version.current_version_indicator)
-
-print(Version.objects)
-
-print(data_list['object_list'])
-for dt in data_list['object_list']:
-    print(dt.current_version_indicator)
+    success_url = reverse_lazy('catalog:list_version')
