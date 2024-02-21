@@ -4,7 +4,15 @@ from catalog.models import Product, Version
 from config.settings import PROHIBITED_COMBINATIONS
 
 
-class ProductForm(forms.ModelForm):
+class FormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name != 'current_version_indicator':
+                field.widget.attrs['class'] = 'form-control'
+
+
+class ProductForm(FormMixin, forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
@@ -57,16 +65,18 @@ class ProductForm(forms.ModelForm):
             return self.cleaned_data.get('description')
 
 
-class VersionForm(forms.ModelForm):
+class VersionForm(FormMixin, forms.ModelForm):
     class Meta:
         model = Version
         fields = '__all__'
 
-    # def clean_current_version_indicator(self, product_id):
-    #     count_c_v_i = 0
-    #     for version in Version.objects.filter(product_id=product_id):
-    #         if version.current_version_indicator:
-    #             count_c_v_i += 1
-    #
-    #     if count_c_v_i > 1:
-    #         return None
+        # def clean_current_version_indicator(self):
+        #     context =
+        #     print(context)
+        # count_c_v_i = 0
+        # for version in Version.objects.filter(product_id=self.pk):
+        #     if version.current_version_indicator:
+        #         count_c_v_i += 1
+        #
+        # if count_c_v_i > 1:
+        #     return None

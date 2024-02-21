@@ -1,4 +1,4 @@
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, forms
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
@@ -205,6 +205,20 @@ class ProductUpdateView(UpdateView):
         context_data = self.get_context_data()
         formset = context_data['formset']
         self.object = form.save()
+        # activation_counter = 0
+        # for cvi in formset:
+        #     if cvi.initial and cvi.initial['current_version_indicator'] is True:
+        #         activation_counter += 1
+        #         # print(activation_counter)
+        # try:
+        #     if activation_counter > 1:
+        #         for cvi in formset:
+        #             cvi.initial['current_version_indicator'] = False
+        #         raise forms.ValidationError('Активна может быть только одна версия')
+        # except forms.ValidationError:
+        #     print('Активна может быть только одна версия')
+        #
+        # self.object = form.save()
 
         if formset.is_valid():
             formset.instance = self.object
