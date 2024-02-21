@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+
+<section class="py-3 text-center container">
+    <div class="col-lg-6 col-md-2 mx-auto">
+        <div class="col">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                <h4 class="card-text">{{ object.version_name }}</h4>
+                <p class="card-text">{{ object.version_number }}</p>
+                <p class="card-text">{{ object.product }}</p>
+                <p class="card-text">{{ object.current_version_indicator }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                        <a href="{% url 'catalog:update_version' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Редактирование</a>
+                        <a href="{% url 'catalog:delete_version' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Удаление</a>
+                        </div>
+                        <small class="text-body-secondary">9 mins</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

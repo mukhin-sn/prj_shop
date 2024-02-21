@@ -5,7 +5,7 @@
     <div class="col-12">
       <div class="card">
         <h3 class="card-header">
-          Вы точно хотите удалить блог?
+          Вы точно хотите удалить продукт?
         </h3>
       </div>
     </div>
@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-danger">Удалить</button>
-                <a href="{% url 'catalog:list_blog' %}" type="button" class="btn btn-success">Отмена</a>
+                <a href="{% url 'catalog:category' object.category_id %}" type="button" class="btn btn-success">Отмена</a>
             </form>
         </div>
     </div>
