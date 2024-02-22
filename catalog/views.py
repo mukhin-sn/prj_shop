@@ -205,11 +205,17 @@ class ProductUpdateView(UpdateView):
         context_data = self.get_context_data()
         formset = context_data['formset']
         self.object = form.save()
-        # activation_counter = 0
-        # for cvi in formset:
-        #     if cvi.initial and cvi.initial['current_version_indicator'] is True:
-        #         activation_counter += 1
-        #         # print(activation_counter)
+        print(context_data['formset'].__dict__)
+        activation_counter = 0
+        for cvi in formset:
+            print(cvi.initial)
+            if cvi.initial:  # and cvi.initial['current_version_indicator'] is True:
+                activation_counter += 1
+                print(cvi.initial['current_version_indicator'])
+                print(activation_counter)
+
+        # for i, j in formset.__dict__.items():
+        #     print(f'{i} - {j}')
         # try:
         #     if activation_counter > 1:
         #         for cvi in formset:
@@ -224,7 +230,7 @@ class ProductUpdateView(UpdateView):
             formset.instance = self.object
             formset.save()
 
-        return super().form_valid(form)
+        return self.form_valid(form)
 
 
 class ProductDeleteView(DeleteView):
