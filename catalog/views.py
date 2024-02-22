@@ -136,17 +136,17 @@ class ProductCreateView(CreateView):
     def get_success_url(self, *args, **kwargs):
         return reverse('catalog:category', args=[self.object.category_id])
 
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data(**kwargs)
-    #     VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-    #     if self.request.method == 'POST':
-    #         formset = VersionFormset(self.request.POST)
-    #     else:
-    #         formset = VersionFormset()
-    #
-    #     context_data['formset'] = formset
-    #     return context_data
-    #
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST)
+        else:
+            formset = VersionFormset()
+
+        context_data['formset'] = formset
+        return context_data
+
     # def form_valid(self, form):
     #     context_data = self.get_context_data()
     #     formset = context_data['formset']
