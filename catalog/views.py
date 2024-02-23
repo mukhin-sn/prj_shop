@@ -199,38 +199,45 @@ class ProductUpdateView(UpdateView):
             formset = VersionFormset(instance=self.object)
 
         context_data['formset'] = formset
+        for cvi in formset:
+            print(f'get_context - {cvi.initial}')
         return context_data
 
     def form_valid(self, form):
         context_data = self.get_context_data()
         formset = context_data['formset']
         self.object = form.save()
-        print(context_data['formset'].__dict__)
-        activation_counter = 0
-        for cvi in formset:
-            print(cvi.initial)
-            if cvi.initial:  # and cvi.initial['current_version_indicator'] is True:
-                activation_counter += 1
-                print(cvi.initial['current_version_indicator'])
-                print(activation_counter)
 
-        # for i, j in formset.__dict__.items():
-        #     print(f'{i} - {j}')
-        # try:
-        #     if activation_counter > 1:
-        #         for cvi in formset:
-        #             cvi.initial['current_version_indicator'] = False
-        #         raise forms.ValidationError('Активна может быть только одна версия')
-        # except forms.ValidationError:
-        #     print('Активна может быть только одна версия')
-        #
+        # activation_counter = 0
+        # if formset.is_valid():
+        #     print('ok')
+        #     formset.instance = self.object
+        #     formset.save()
+        # context_data = self.get_context_data()
+        # formset = context_data['formset']
         # self.object = form.save()
-
+        # for cvi in formset:
+        #     print(cvi.initial)
+        #     if cvi.initial and cvi.initial['current_version_indicator'] is True:
+        #         activation_counter += 1
+        #         # print(cvi.initial['current_version_indicator'])
+        # if activation_counter > 1:
+        #     context_data['activation_counter'] = False
+        #     formset.is_bound = False
+        #     print('Активна может быть только одна версия')
+        #     # raise forms.ValidationError('Активна может быть только одна версия')
+        #     # for cvi in formset:
+        #     #     cvi.initial['current_version_indicator'] = False
+        #
+        # # self.get_context_data()
+        # # formset.is_bound = False
+        # # print(formset.is_bound)
+        # # print(super().form_valid(form))
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
 
-        return self.form_valid(form)
+        return super().form_valid(form)
 
 
 class ProductDeleteView(DeleteView):
