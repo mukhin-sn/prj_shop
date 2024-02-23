@@ -70,25 +70,18 @@ class VersionForm(FormMixin, forms.ModelForm):
         model = Version
         fields = '__all__'
 
-    def clean_current_version_indicator(self):
-        product_id = self.cleaned_data.get('product')
-        version_list = Version.objects.filter(product_id=product_id)
-        activation_counter = 0
-        for cvi in version_list:
-            if cvi.current_version_indicator:
-                activation_counter += 1
-
-        print(activation_counter)
-        if activation_counter > 1:
-            print('ups')
-            raise forms.ValidationError('Активна может быть только одна версия')
-        return self.cleaned_data.get('current_version_indicator')
-        #     context =
-        #     print(context)
-        # count_c_v_i = 0
-        # for version in Version.objects.filter(product_id=self.pk):
-        #     if version.current_version_indicator:
-        #         count_c_v_i += 1
-        #
-        # if count_c_v_i > 1:
-        #     return None
+    # def clean_current_version_indicator(self):
+    #     product_id = self.cleaned_data.get('product')
+    #     version_list = Version.objects.filter(product_id=product_id)
+    #     activation_counter = 0
+    #     for cvi in version_list:
+    #         if cvi.current_version_indicator:
+    #             activation_counter += 1
+    #     if activation_counter > 1:
+    #         print('Активна может быть только одна версия')
+    #         for cvi in version_list:
+    #             cvi.current_version_indicator = False
+    #             print('Сброс')
+    #         # raise forms.ValidationError(False)
+    #     # return self.cleaned_data.get('current_version_indicator')
+    #     return None

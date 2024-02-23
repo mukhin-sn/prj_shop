@@ -206,9 +206,19 @@ class ProductUpdateView(UpdateView):
     def form_valid(self, form):
         context_data = self.get_context_data()
         formset = context_data['formset']
-        self.object = form.save()
 
-        # activation_counter = 0
+        # print(self.object.__dict__)
+        #
+        # self.object = form.save()
+        formset.save()
+        print('-' * 50)
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+
+        # self.object = form.save()
+        # print(self.object.__dict__)
+
+        activation_counter = 0
         # if formset.is_valid():
         #     print('ok')
         #     formset.instance = self.object
@@ -216,26 +226,39 @@ class ProductUpdateView(UpdateView):
         # context_data = self.get_context_data()
         # formset = context_data['formset']
         # self.object = form.save()
-        # for cvi in formset:
-        #     print(cvi.initial)
-        #     if cvi.initial and cvi.initial['current_version_indicator'] is True:
-        #         activation_counter += 1
-        #         # print(cvi.initial['current_version_indicator'])
-        # if activation_counter > 1:
-        #     context_data['activation_counter'] = False
-        #     formset.is_bound = False
-        #     print('Активна может быть только одна версия')
-        #     # raise forms.ValidationError('Активна может быть только одна версия')
-        #     # for cvi in formset:
-        #     #     cvi.initial['current_version_indicator'] = False
-        #
-        # # self.get_context_data()
-        # # formset.is_bound = False
-        # # print(formset.is_bound)
-        # # print(super().form_valid(form))
-        if formset.is_valid():
+        for cvi in formset:
+            print(cvi.initial)
+            if cvi.initial and cvi.initial['current_version_indicator'] is True:
+                activation_counter += 1
+                # print(cvi.initial['current_version_indicator'])
+        if activation_counter > 1:
+            # context_data['activation_counter'] = False
+            formset.is_bound = False
+            print('Активна может быть только одна версия')
+            for cvi in formset:
+                if cvi.initial:
+                    cvi.initial['current_version_indicator'] = False
+
+            # self.object = form.save()
             formset.instance = self.object
             formset.save()
+            print("*" * 50)
+            for cvi in formset:
+                print(cvi.initial)
+
+            # raise forms.ValidationError('Активна может быть только одна версия')
+            # for cvi in formset:
+            #     cvi.initial['current_version_indicator'] = False
+
+        # self.get_context_data()
+        # formset.is_bound = False
+        # print(formset.is_bound)
+        # print(super().form_valid(form))
+
+        # if formset.is_valid():
+        #     print(f'is_bound - {formset.is_bound}')
+        #     formset.instance = self.object
+        #     formset.save()
 
         return super().form_valid(form)
 
