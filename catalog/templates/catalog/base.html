@@ -160,8 +160,19 @@
           <ul class="list-unstyled">
             <li><a href="{% url 'catalog:contacts' %}" class="text-blue">Информация для связи</a></li>
             <li><a href="{% url 'catalog:list_blog' %}" class="text-blue">Блог</a></li>
-            <li><a href="#" class="text-blue">Вход</a></li>
-            <li><a href="#" class="text-blue">Регистрация</a></li>
+            {% if user.is_authenticated %}
+            <li>
+                <form method="post" action="{% url 'users:logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-link">Выход</button>
+                </form>
+
+              </li>
+<!--              <li><a href="{% url 'users:logout' %}" class="text-blue">Выход</a></li>-->
+            {% else %}
+              <li><a href="{% url 'users:register' %}" class="text-blue">Регистрация</a></li>
+              <li><a href="{% url 'users:login' %}" class="text-blue">Вход</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>
