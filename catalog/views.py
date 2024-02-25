@@ -238,6 +238,7 @@ class ProductUpdateView(UpdateView):
             for cvi in formset:
                 if cvi.initial:
                     cvi.initial['current_version_indicator'] = False
+            self.object.save()
 
             # self.object = form.save()
             formset.instance = self.object
