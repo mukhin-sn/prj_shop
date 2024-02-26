@@ -164,6 +164,7 @@
             <li>
                 <form method="post" action="{% url 'users:logout' %}">
                   {% csrf_token %}
+                  <li><a href="{% url 'users:profile' %}" class="text-blue">Профиль</a></li>
                   <button type="submit" class="btn btn-link">Выход</button>
                 </form>
 

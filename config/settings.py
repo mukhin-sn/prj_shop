@@ -147,3 +147,12 @@ PROHIBITED_COMBINATIONS = (
     'казино', 'криптовалюта', 'крипта', 'биржа',
     'дешево', 'бесплатно', 'обман', 'полиция', 'радар',
 )
+
+ADMIN_PASS = '835221'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'musernik@yandex.ru'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_SELL = True
+
