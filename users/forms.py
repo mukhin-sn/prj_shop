@@ -22,8 +22,7 @@ class ProfileForm(UsersFormMixin, UserChangeForm):
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone', 'avatar', 'country')
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(self, *args, **kwargs)
+    # Скрываем поле пароля в форме
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
