@@ -24,6 +24,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
 
         new_user = form.save()
+        print(settings.EMAIL_HOST_PASSWORD)
         send_mail(
             subject='Поздравляем с регистрацией',
             message='Добро пожаловать на нашу латформу',

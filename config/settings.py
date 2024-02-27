@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+import os
+
 import catalog.apps
 import users.apps
 
@@ -153,6 +155,6 @@ ADMIN_PASS = '835221'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'musernik@yandex.ru'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = os.getenv('EML_HOST_PSW')
 EMAIL_USE_SELL = True
 
