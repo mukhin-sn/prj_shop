@@ -5,10 +5,9 @@ from django.views.generic import CreateView, UpdateView
 
 from config import settings
 from users.forms import RegisterForm, ProfileForm, UsersFormMixin
+
 from users.models import User
 from django.contrib.auth.views import LoginView, LogoutView
-
-from django.contrib.auth.models import User
 
 
 class UserLogin(LoginView):
@@ -22,6 +21,7 @@ class UserLogout(LogoutView):
 # Регистрация пользователя
 class RegisterView(CreateView):
     model = User
+    # template_name = 'users/user_form.html'
     form_class = RegisterForm
     success_url = reverse_lazy('users:login')
 
@@ -55,9 +55,10 @@ class ProfileUpdate(UpdateView):
 
 def generate_new_password(request):
     new_pass = User.objects.make_random_password()
+    print(new_pass)
     request.user.set_password(new_pass)
     request.user.save()
 
-    return redirect(reverse('users:profile'))
+    return redirect(reverse('catalog:index'))
 
 
