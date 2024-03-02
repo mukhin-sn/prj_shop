@@ -22,17 +22,15 @@ class UserLogout(LogoutView):
 
 
 def rnd_url():
-    new_url = "".join([str(random.randint(0, 9)) for _ in range(25)])
-    new_url = 'verification/' + new_url
+    token = "".join([str(random.randint(0, 9)) for _ in range(25)])
+    new_url = "http://localhost:8000/" + token
     return new_url
+    # return token
 
 
-def var_url():
-    # request.user.is_active = False
-    valid_url_token = rnd_url()
-    # request.user.valid_url_token = valid_url_token
-    # request.user.save()
-    return valid_url_token
+# def var_url():
+#     valid_url = rnd_url()
+#     return valid_url
 
 
 # Регистрация пользователя
@@ -45,24 +43,28 @@ class RegisterView(CreateView):
     # def get_object(self, queryset=None):
     #     return self.request.user
 
-    def post(self, request, *args, **kwargs):
-        data = {
-            'valid_url_token': var_url()
-        }
-        # request.user.valid_url_token = var_url()
-        return render(request, 'users/login.html', context=data)
-
     def form_valid(self, form):
         new_user = form.save()
         print(new_user)
         print(new_user.is_active)
+        print(new_user.valid_url_token)
+        print('-' * 50)
+
+        new_user.is_active = False
+        new_user.valid_url_token = rnd_url()
+        print(new_user.is_active)
+        print(new_user.valid_url_token)
+        # form = new_user
+        # form.save()
+
         # usr = self.get_object()
-        form.valid_url_token = var_url()
-        form.save()
+        # print(usr.is_active)
+        # form.valid_url_token = var_url()
+        # form.save()
 
         send_mail(
             subject='Поздравляем с регистрацией',
-            message='Добро пожаловать на нашу платформу',
+            message=f'Добро пожаловать на нашу платформу. Ссылка для подтверждения: {new_user.valid_url_token}',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[new_user.email],
             # fail_silently=False,
