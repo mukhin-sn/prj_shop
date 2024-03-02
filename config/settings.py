@@ -161,3 +161,5 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
