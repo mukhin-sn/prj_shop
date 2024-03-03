@@ -89,7 +89,7 @@ DATABASES = {
         "USER": "postgres",
         "HOST": "127.0.0.1",
         "PORT": 5432,
-        "PASSWORD": "835221",
+        "PASSWORD": os.getenv("POSTGRES_PSW"),
     }
 }
 
@@ -151,7 +151,7 @@ PROHIBITED_COMBINATIONS = (
     'дешево', 'бесплатно', 'обман', 'полиция', 'радар',
 )
 
-ADMIN_PASS = '835221'
+ADMIN_PASS = os.getenv("POSTGRES_PSW")
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
