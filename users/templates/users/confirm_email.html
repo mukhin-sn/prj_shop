@@ -6,7 +6,6 @@
             <div class="card">
                 <h3 class="card-header">Подтверждение регистрации</h3>
                     <div class="card-body">
-                        <p>Проверьте почту</p>
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form.as_p }}
