@@ -89,7 +89,7 @@ DATABASES = {
         "USER": "postgres",
         "HOST": "127.0.0.1",
         "PORT": 5432,
-        "PASSWORD": os.getenv("POSTGRES_PSW"),
+        "PASSWORD": os.getenv('POSTGRES_PSW'),
     }
 }
 
@@ -151,7 +151,7 @@ PROHIBITED_COMBINATIONS = (
     'дешево', 'бесплатно', 'обман', 'полиция', 'радар',
 )
 
-ADMIN_PASS = os.getenv("POSTGRES_PSW")
+ADMIN_PASS = os.getenv('POSTGRES_PSW')
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
@@ -161,3 +161,5 @@ EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

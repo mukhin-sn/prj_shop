@@ -1,10 +1,12 @@
 import os.path
 import random
 
+from django.contrib.sites.shortcuts import get_current_site
+
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, TemplateView
 
 from config import settings
 from users.forms import RegisterForm, ProfileForm, UsersFormMixin
@@ -24,8 +26,32 @@ class UserLogout(LogoutView):
 def rnd_url():
     token = "".join([str(random.randint(0, 9)) for _ in range(25)])
     new_url = "http://localhost:8000/" + token
-    return new_url
-    # return token
+    # return new_url
+    return token
+
+
+def send_email_for_verify(request, user):
+    current_site = get_current_site(request)
+    context = {
+        'user': user,
+        'user_id': user.pk,
+        'domain': current_site.domain,
+        'token': rnd_url(),
+    }
+    end_url = f'http://{context["domain"]}/{context["user_id"]}/{context["token"]}'
+
+    send_mail(
+        subject='Поздравляем с регистрацией',
+        message=f'Добро пожаловать на нашу платформу.\n'
+                f'Ссылка для подтверждения регистрации: {end_url}',
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[user.email],
+        # fail_silently=False,
+        # auth_user=None,
+        # auth_password=None,
+        # connection=None,
+        # html_message=None,
+    )
 
 
 # def var_url():
@@ -45,15 +71,16 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         new_user = form.save()
-        print(new_user)
-        print(new_user.is_active)
-        print(new_user.valid_url_token)
-        print('-' * 50)
+        # print(new_user)
+        # print(new_user.is_active)
+        # print(new_user.valid_url_token)
+        # print('-' * 50)
 
         new_user.is_active = False
         new_user.valid_url_token = rnd_url()
-        print(new_user.is_active)
-        print(new_user.valid_url_token)
+
+        # print(new_user.is_active)
+        # print(new_user.valid_url_token)
         # form = new_user
         # form.save()
 
@@ -61,18 +88,8 @@ class RegisterView(CreateView):
         # print(usr.is_active)
         # form.valid_url_token = var_url()
         # form.save()
+        send_email_for_verify(self.request, new_user)
 
-        send_mail(
-            subject='Поздравляем с регистрацией',
-            message=f'Добро пожаловать на нашу платформу. Ссылка для подтверждения: {new_user.valid_url_token}',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[new_user.email],
-            # fail_silently=False,
-            # auth_user=None,
-            # auth_password=None,
-            # connection=None,
-            # html_message=None,
-        )
         return super().form_valid(form)
 
 
@@ -101,3 +118,23 @@ def generate_new_password(request):
     )
 
     return redirect(reverse('catalog:index'))
+
+
+# def verify_email(request):
+#     template_name = 'users/confirm_email.html'
+#     data = {
+#         'title': 'Подтверждение почты'
+#     }
+#
+#     if request.method == 'POST':
+#         for i in request.POST.get():
+#             print(i)
+#
+#     return render(request, 'users/login.html', context=data)
+
+
+class VerifyTemplateView(TemplateView):
+    model = User
+    template_name = 'users/confirm_email.html'
+    success_url = reverse_lazy('users:login')
+
