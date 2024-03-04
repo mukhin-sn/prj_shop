@@ -24,6 +24,15 @@ class ProfileForm(UsersFormMixin, UserChangeForm):
 
     # Скрываем поле пароля в форме
     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password'].widget = forms.HiddenInput()
 
+
+class VerifyForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ()
+
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.HiddenInput()

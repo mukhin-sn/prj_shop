@@ -6,10 +6,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView, TemplateView
+from django.views.generic import CreateView, UpdateView, TemplateView, DetailView
 
 from config import settings
-from users.forms import RegisterForm, ProfileForm, UsersFormMixin
+from users.forms import RegisterForm, ProfileForm, UsersFormMixin, VerifyForm
 
 from users.models import User
 from django.contrib.auth.views import LoginView, LogoutView
@@ -131,10 +131,27 @@ def generate_new_password(request):
 #     return render(request, 'users/login.html', context=data)
 
 
-class VerifyTemplateView(TemplateView):
+class VerifyTemplateView(CreateView):
     model = User
+    form_class = VerifyForm
     template_name = 'users/confirm_email.html'
     success_url = reverse_lazy('users:login')
 
-    def get_context_data(self, **kwargs):
-        return None
+    def post(self, request, *args, **kwargs):
+        # current_url = get_current_site(request)
+        data = {}
+        current_url = request.path
+        current_url = current_url.split('/')
+        data['pk'] = current_url[1]
+        data['valid_url_token'] = current_url[2]
+        print(f'pk = {data["pk"]}\nvalid_url_token = {data["valid_url_token"]}')
+
+        obj = User.objects.filter(pk=data['pk'])
+        print(obj.is_active)
+        for i in obj:
+            print(i)
+        # if obj['valid_url_token'] == data['valid_url_token']:
+        #     obj['is_active'] = True
+        #     print('User - активирован')
+        #     obj.save()
+        return render(request, 'users/confirm_email.html', context=data)
