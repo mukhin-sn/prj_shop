@@ -121,14 +121,12 @@ def generate_new_password(request):
 
 
 # def verify_email(request):
-#     template_name = 'users/confirm_email.html'
 #     data = {
 #         'title': 'Подтверждение почты'
 #     }
-#
-#     if request.method == 'POST':
-#         for i in request.POST.get():
-#             print(i)
+#     user_data = request.user
+#     if not user_data.is_active:
+#         user_data.is_active = True
 #
 #     return render(request, 'users/login.html', context=data)
 
@@ -138,3 +136,5 @@ class VerifyTemplateView(TemplateView):
     template_name = 'users/confirm_email.html'
     success_url = reverse_lazy('users:login')
 
+    def get_context_data(self, **kwargs):
+        return None
