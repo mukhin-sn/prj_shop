@@ -1,11 +1,13 @@
 import os.path
 import random
 
+# from django.contrib.auth import get_user
 from django.contrib.sites.shortcuts import get_current_site
 
 from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic import CreateView, UpdateView, TemplateView, DetailView
 
 from config import settings
@@ -131,27 +133,48 @@ def generate_new_password(request):
 #     return render(request, 'users/login.html', context=data)
 
 
-class VerifyTemplateView(CreateView):
+class VerifyTemplateView(TemplateView):
     model = User
     form_class = VerifyForm
     template_name = 'users/confirm_email.html'
     success_url = reverse_lazy('users:login')
 
-    def post(self, request, *args, **kwargs):
-        # current_url = get_current_site(request)
-        data = {}
-        current_url = request.path
-        current_url = current_url.split('/')
-        data['pk'] = current_url[1]
-        data['valid_url_token'] = current_url[2]
-        print(f'pk = {data["pk"]}\nvalid_url_token = {data["valid_url_token"]}')
+    # def get_object(self, queryset=None):
+    #     return self.request.user
 
-        obj = User.objects.filter(pk=data['pk'])
-        print(obj.is_active)
-        for i in obj:
-            print(i)
-        # if obj['valid_url_token'] == data['valid_url_token']:
-        #     obj['is_active'] = True
-        #     print('User - активирован')
-        #     obj.save()
-        return render(request, 'users/confirm_email.html', context=data)
+    def get_user(self, user_id, token):
+        user = User.objects.filter(pk=user_id, valid_url_token=token)
+        return user[0]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_id = context['user_id']
+        token = context['token']
+        user = self.get_user(user_id, token)
+        print(user)
+
+
+        # if usr:
+        #     print(usr.object)
+        #     # print(f"{usr.email} - {usr.is_active}")
+        return context
+
+    # def post(self, request, *args, **kwargs):
+    #     # current_url = get_current_site(request)
+    #     data = {}
+    #     current_url = request.path
+    #     current_url = current_url.split('/')
+    #     data['pk'] = current_url[1]
+    #     data['valid_url_token'] = current_url[2]
+    #     print(f'pk = {data["pk"]}\nvalid_url_token = {data["valid_url_token"]}')
+    #
+    #     obj = User.objects.filter(pk=data['pk'])
+    #     print(obj.__dict__)
+    #     for i in obj:
+    #         print(i)
+    #     # if obj['valid_url_token'] == data['valid_url_token']:
+    #     #     obj['is_active'] = True
+    #     #     print('User - активирован')
+    #     #     obj.save()
+    #     return super().post(request, *args, **kwargs)
+    #     # return render(request, 'users/confirm_email.html', context=data)

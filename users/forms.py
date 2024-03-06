@@ -33,6 +33,6 @@ class VerifyForm(UserChangeForm):
         model = User
         fields = ()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['password'].widget = forms.HiddenInput()
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['password'].widget = forms.HiddenInput()
